@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
       <span className="todo-count">1 Выполнено</span>
       <ul className="filters">
         {tabs.map((tab) => (
-          <TaskFilter tab={tab} />
+          <TaskFilter key={tab.id} tab={tab} />
         ))}
       </ul>
     </footer>

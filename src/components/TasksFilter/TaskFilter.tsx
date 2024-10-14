@@ -13,7 +13,7 @@ interface PropTypes {
 const TaskFilter: React.FC<PropTypes> = ({ tab }) => {
   return (
     <li key={tab.id}>
-      <button className="selected">{tab.name}</button>
+      <button className={tab.selected ? 'selected' : ''}>{tab.name}</button>
     </li>
   )
 }
