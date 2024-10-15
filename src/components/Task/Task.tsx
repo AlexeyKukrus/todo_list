@@ -1,15 +1,12 @@
 import React from "react";
 import { formatDistanceToNow } from "date-fns";
 
+import { TaskListItem } from "../../types/types";
+
 import styles from './Task.module.scss'
 
 interface PropTypes {
-  task: {
-    id: string;
-    name: string;
-    status: string;
-    time: string;
-  };
+  task: TaskListItem
 }
 
 const Task: React.FC<PropTypes> = ({ task }) => {

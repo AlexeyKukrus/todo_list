@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import TaskList from './components/TaskList/TaskList';
 import Footer from './components/Footer/Footer';
 import NewTaskForm from './components/NewTaskForm/NewTaskForm';
 
+import { TaskListItem } from './types/types';
+
 const App: React.FC = () => {
+  const [task, setTask] = useState<TaskListItem[]>([])
+  
   return (
     <section className="todoapp">
         <header className="header">
@@ -12,7 +16,7 @@ const App: React.FC = () => {
           <NewTaskForm />
         </header>
         <section className="main">
-          <TaskList />
+          <TaskList tasks={task}/>
           <Footer />
         </section>
     </section>
