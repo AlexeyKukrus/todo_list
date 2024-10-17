@@ -1,5 +1,5 @@
 export interface TaskListItem {
-  id: number;
+  id: string;
   name: string;
   status: string;
   time: Date;

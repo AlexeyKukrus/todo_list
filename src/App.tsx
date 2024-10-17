@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { nanoid } from 'nanoid';
 
 import TaskList from './components/TaskList/TaskList';
 import Footer from './components/Footer/Footer';
@@ -7,29 +8,14 @@ import NewTaskForm from './components/NewTaskForm/NewTaskForm';
 import { TaskListItem } from './types/types';
 
 const App: React.FC = () => {
-  const [task, setTask] = useState<TaskListItem[]>([
-    {
-      id: 1,
-      name: "Задача 1",
-      status: "completed",
-      time: new Date(),
-    },
-    {
-      id: 2,
-      name: "Задача 2",
-      status: "view",
-      time: new Date(),
-    },
-    {
-      id: 3,
-      name: "Задача для удаления",
-      status: "view",
-      time: new Date(),
-    }
-  ])
+  const [taskList, setTaskList] = useState<TaskListItem[]>([])
+  const [newTaskName, setNewTaskName] = useState<string>('')
 
-  const changeTaskStatus = (id:number) => {
-    const updatedTaskList = task.map((item:TaskListItem) => {
+  const size = 10
+  const id = nanoid(size)
+
+  const changeTaskStatus = (id:string) => {
+    const updatedTaskList = taskList.map((item:TaskListItem) => {
       if(item.id === id) {
         const currentStatus = item.status === "view" ? "completed" : 'view'
         return {...item, status: currentStatus}
@@ -37,23 +23,45 @@ const App: React.FC = () => {
       return item
     })
     
-    setTask(updatedTaskList)
+    setTaskList(updatedTaskList)
   }
 
-  const deleteTask = (id:number) => {
-    const udpatedTaskList = task.filter((item:TaskListItem) => item.id !== id)
-    setTask(udpatedTaskList)
+  const deleteTask = (id:string) => {
+    const udpatedTaskList = taskList.filter((item:TaskListItem) => item.id !== id)
+    setTaskList(udpatedTaskList)
   }
 
+  const changeTaskName = (name: string) => {
+    setTimeout(()=> {
+      setNewTaskName(name)
+    }, 500)
+  }
+
+  const submitAddForm = (name: string) => {
+    let currentTask: TaskListItem = {id: "", name: '', status: '', time: new Date}
+    if (name === "Enter") {
+      currentTask = {
+        id: id,
+        name: newTaskName,
+        status: "view",
+        time: new Date,
+      }
+      setTaskList((prevTasks) => [...prevTasks, currentTask])
+    }
+    setNewTaskName('')
+  }
   return (
     <section className="todoapp">
         <header className="header">
           <h1>ДЕЛА</h1>
-          <NewTaskForm />
+          <NewTaskForm 
+            onChangeTaskName={changeTaskName}
+            onKeyDown={submitAddForm}
+          />
         </header>
         <section className="main">
           <TaskList 
-            tasks={task}
+            taskList={taskList}
             onChangeTaskStatus={changeTaskStatus}
             onDeleteTask={deleteTask}
           />

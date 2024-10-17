@@ -7,13 +7,13 @@ import { TaskListItem } from "../../types/types";
 import styles from './TaskList.module.scss';
 
 interface PropTypes {
-  tasks: TaskListItem[]
-  onChangeTaskStatus: (id:number) => void
-  onDeleteTask: (id:number) => void
+  taskList: TaskListItem[]
+  onChangeTaskStatus: (id:string) => void
+  onDeleteTask: (id:string) => void
 }
 
-const TaskList: React.FC<PropTypes> = ({ tasks, onChangeTaskStatus, onDeleteTask }) => {
-  const getTask: JSX.Element[] = tasks.map((task: TaskListItem) => (
+const TaskList: React.FC<PropTypes> = ({ taskList, onChangeTaskStatus, onDeleteTask }) => {
+  const getTask: JSX.Element[] = taskList.map((task: TaskListItem) => (
     <Task 
       key={task.id} 
       task={task} 
