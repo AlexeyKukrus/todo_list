@@ -8,8 +8,8 @@ import styles from './TaskList.module.scss';
 
 interface PropTypes {
   tasks: TaskListItem[]
-  onChangeTaskStatus: (id:Number) => void
-  onDeleteTask: (id:Number) => void
+  onChangeTaskStatus: (id:number) => void
+  onDeleteTask: (id:number) => void
 }
 
 const TaskList: React.FC<PropTypes> = ({ tasks, onChangeTaskStatus, onDeleteTask }) => {
@@ -19,7 +19,7 @@ const TaskList: React.FC<PropTypes> = ({ tasks, onChangeTaskStatus, onDeleteTask
       task={task} 
       onChangeTaskStatus={onChangeTaskStatus}
       onDeleteTask={onDeleteTask}
-      />
+    />
   ))
 
   return (

@@ -28,7 +28,7 @@ const App: React.FC = () => {
     }
   ])
 
-  const changeTaskStatus = (id:Number) => {
+  const changeTaskStatus = (id:number) => {
     const updatedTaskList = task.map((item:TaskListItem) => {
       if(item.id === id) {
         const currentStatus = item.status === "view" ? "completed" : 'view'
@@ -40,7 +40,7 @@ const App: React.FC = () => {
     setTask(updatedTaskList)
   }
 
-  const deleteTask = (id:Number) => {
+  const deleteTask = (id:number) => {
     const udpatedTaskList = task.filter((item:TaskListItem) => item.id !== id)
     setTask(udpatedTaskList)
   }
@@ -53,9 +53,9 @@ const App: React.FC = () => {
         </header>
         <section className="main">
           <TaskList 
-          tasks={task}
-          onChangeTaskStatus={changeTaskStatus}
-          onDeleteTask={deleteTask}
+            tasks={task}
+            onChangeTaskStatus={changeTaskStatus}
+            onDeleteTask={deleteTask}
           />
           <Footer />
         </section>
