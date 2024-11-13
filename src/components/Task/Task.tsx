@@ -7,8 +7,8 @@ import styles from './Task.module.scss'
 
 interface PropTypes {
   task: TaskListItem,
-  onChangeTaskStatus: (id:number) => void
-  onDeleteTask: (id:number) => void
+  onChangeTaskStatus: (id:string) => void
+  onDeleteTask: (id:string) => void
 }
 
 const Task: React.FC<PropTypes> = ({ task, onChangeTaskStatus, onDeleteTask }) => {
