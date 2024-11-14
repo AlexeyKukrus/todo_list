@@ -58,8 +58,16 @@ const App: React.FC = () => {
     const updatedTaskList = taskList.filter((item:TaskListItem) => item.id !== id)
     setTaskList(updatedTaskList)
   }
+
   const editTask = (id:string, name:string) => {
-    console.log("edit", id, name)
+    const updatedTaskList = taskList.map((item:TaskListItem) => {
+      if(item.id === id) {
+        return {...item, name: name}
+      }
+      return item
+    })
+    
+    setTaskList(updatedTaskList)
   }
 
   const changeActiveTab = (id: string) => {
