@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import TaskList from './components/TaskList/TaskList';
@@ -12,29 +12,24 @@ const App: React.FC = () => {
     const savedTasks = localStorage.getItem("todo");
     return savedTasks ? (JSON.parse(savedTasks) as TaskListItem[]) : [];
   });
-  const [filteredTaskList, setFilteredTaskList] = useState<TaskListItem[]>([])
   const [activeTab, setActiveTab] = useState<string>("all")
-  const [counter, setCounter] = useState<number>(0)
 
   useEffect(() => {
     localStorage.setItem("todo", JSON.stringify(taskList))
   }, [taskList])
 
-  useEffect(() => {
-    let updatedFilteredTaskList = []
+  const filteredTaskList = useMemo(() => {
     if (activeTab === "active") {
-      updatedFilteredTaskList = taskList.filter((item) => item.status === 'view')
+       return taskList.filter(item => item.status === 'view');
     } else if (activeTab === "complete") {
-      updatedFilteredTaskList = taskList.filter((item) => item.status === 'completed')
-    } else {
-      updatedFilteredTaskList = taskList
+       return taskList.filter(item => item.status === 'completed');
     }
-
-    let updatedCounter = taskList.filter((item) => item.status === "view").length
-
-    setFilteredTaskList(updatedFilteredTaskList)
-    setCounter(updatedCounter)
-  }, [activeTab, taskList])
+    return taskList;
+ }, [activeTab, taskList]);
+ 
+ const counter = useMemo(() => {
+    return taskList.filter(item => item.status === "view").length;
+ }, [taskList]);
 
   const changeTaskStatus = (id: string) => {
     const updatedTaskList = taskList.map((item:TaskListItem) => {
@@ -89,6 +84,7 @@ const App: React.FC = () => {
           />
           <Footer 
             counter={counter}
+            activeTab={activeTab}
             onTabChange={changeActiveTab}
           />
         </section>

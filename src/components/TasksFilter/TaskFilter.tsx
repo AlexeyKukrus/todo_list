@@ -6,13 +6,13 @@ interface PropTypes {
   tab: {
     id: string;
     name: string;
-    selected: boolean;
   },
+  selected: boolean
   onSelectTab: (id: string) => void
 }
 
-const TaskFilter: React.FC<PropTypes> = ({ tab, onSelectTab }) => {
-  let tabState = tab.selected ? 'selected' : ''
+const TaskFilter: React.FC<PropTypes> = ({ tab, selected, onSelectTab }) => {
+  let tabState = selected ? 'selected' : ''
 
   return (
     <li key={tab.id}>
