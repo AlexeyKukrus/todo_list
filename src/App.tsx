@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import TaskList from './components/TaskList/TaskList';
@@ -12,10 +12,29 @@ const App: React.FC = () => {
     const savedTasks = localStorage.getItem("todo");
     return savedTasks ? (JSON.parse(savedTasks) as TaskListItem[]) : [];
   });
+  const [filteredTaskList, setFilteredTaskList] = useState<TaskListItem[]>([])
+  const [activeTab, setActiveTab] = useState<string>("all")
+  const [counter, setCounter] = useState<number>(0)
 
-  const setItemsToLocalStorage = (list: TaskListItem[]) => {
-    localStorage.setItem("todo", JSON.stringify(list))
-  }
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(taskList))
+  }, [taskList])
+
+  useEffect(() => {
+    let updatedFilteredTaskList = []
+    if (activeTab === "active") {
+      updatedFilteredTaskList = taskList.filter((item) => item.status === 'view')
+    } else if (activeTab === "complete") {
+      updatedFilteredTaskList = taskList.filter((item) => item.status === 'completed')
+    } else {
+      updatedFilteredTaskList = taskList
+    }
+
+    let updatedCounter = taskList.filter((item) => item.status === "view").length
+
+    setFilteredTaskList(updatedFilteredTaskList)
+    setCounter(updatedCounter)
+  }, [activeTab, taskList])
 
   const changeTaskStatus = (id: string) => {
     const updatedTaskList = taskList.map((item:TaskListItem) => {
@@ -27,7 +46,6 @@ const App: React.FC = () => {
     })
     
     setTaskList(updatedTaskList)
-    setItemsToLocalStorage(updatedTaskList)
   }
 
   const addTask = (task: string) => {
@@ -39,14 +57,19 @@ const App: React.FC = () => {
     }
     const updatedTaskList = [...taskList, newTask]
     setTaskList(updatedTaskList)
-    setItemsToLocalStorage(updatedTaskList)
   }
 
   const deleteTask = (id:string) => {
     const updatedTaskList = taskList.filter((item:TaskListItem) => item.id !== id)
-
     setTaskList(updatedTaskList)
-    setItemsToLocalStorage(updatedTaskList)
+  }
+  const editTask = (id:string, name:string) => {
+    console.log("edit", id, name)
+  }
+
+  const changeActiveTab = (id: string) => {
+    const updatedActiveTab = id
+    setActiveTab(updatedActiveTab)
   }
 
   return (
@@ -59,11 +82,15 @@ const App: React.FC = () => {
         </header>
         <section className="main">
           <TaskList 
-            tasks={taskList}
+            tasks={filteredTaskList}
             onChangeTaskStatus={changeTaskStatus}
             onDeleteTask={deleteTask}
+            onEditTask={editTask}
           />
-          <Footer />
+          <Footer 
+            counter={counter}
+            onTabChange={changeActiveTab}
+          />
         </section>
     </section>
   );

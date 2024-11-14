@@ -10,15 +10,17 @@ interface PropTypes {
   tasks: TaskListItem[]
   onChangeTaskStatus: (id:string) => void
   onDeleteTask: (id:string) => void
+  onEditTask: (id:string, name:string) => void
 }
 
-const TaskList: React.FC<PropTypes> = ({ tasks, onChangeTaskStatus, onDeleteTask }) => {
+const TaskList: React.FC<PropTypes> = ({ tasks, onChangeTaskStatus, onDeleteTask, onEditTask }) => {
   const getTask: JSX.Element[] = tasks.map((task: TaskListItem) => (
     <Task 
       key={task.id} 
       task={task} 
       onChangeTaskStatus={onChangeTaskStatus}
       onDeleteTask={onDeleteTask}
+      onEditTask={onEditTask}
     />
   ))
 
