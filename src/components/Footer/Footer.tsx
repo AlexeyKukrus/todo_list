@@ -1,26 +1,37 @@
 import React from "react";
+import { useState } from "react";
 
 import TaskFilter from "../TasksFilter/TaskFilter";
 
 interface TabsTypes {
   id: string,
   name: string,
-  selected: boolean
+}
+interface PropTypes  {
+  counter: number,
+  activeTab: string,
+  onTabChange: (id: string) => void
 }
 
-const Footer: React.FC = () => {
-  const tabs: TabsTypes[] = [
-    { id: '1', name: 'Все', selected: true },
-    { id: '2', name: 'Активные', selected: false },
-    { id: '3', name: 'Готово', selected: false },
-  ]
+const Footer: React.FC<PropTypes> = ({counter, activeTab, onTabChange}) => {
+
+  const [tabs, setTabs] = useState<TabsTypes[]>([
+    { id: 'all', name: 'Все'},
+    { id: 'active', name: 'Активные'},
+    { id: 'complete', name: 'Готово'},
+  ])
 
   return (
     <footer className="footer">
-      <span className="todo-count">1 Выполнено</span>
+      <span className="todo-count">{`Осталось: ${counter}`}</span>
       <ul className="filters">
         {tabs.map((tab) => (
-          <TaskFilter key={tab.id} tab={tab} />
+          <TaskFilter 
+            key={tab.id} 
+            tab={tab} 
+            selected={activeTab === tab.id}
+            onSelectTab={() => onTabChange(tab.id)}
+          />
         ))}
       </ul>
     </footer>
