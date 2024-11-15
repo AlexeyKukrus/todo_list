@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-
-import styles from './NewTaskForm.module.scss'
+import React, { useState } from 'react';
 
 interface PropTypes {
-  onAddTask: (item:string) => void
+  onAddTask: (item: string) => void;
 }
 
 const NewTaskForm: React.FC<PropTypes> = ({ onAddTask }) => {
-  const [value, setValue] = useState<string>('')
+  const [value, setValue] = useState<string>('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -15,23 +13,23 @@ const NewTaskForm: React.FC<PropTypes> = ({ onAddTask }) => {
 
   const handleSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      event.preventDefault()
+      event.preventDefault();
       const currentValue = event.currentTarget.value;
       if (currentValue.trim()) {
-        onAddTask(currentValue); 
-        setValue(''); 
+        onAddTask(currentValue);
+        setValue('');
       }
     }
   };
   return (
-    <input 
-      className="new-todo" 
+    <input
+      className="new-todo"
       placeholder="Что нужно сделать...?"
       onChange={handleChange}
       onKeyDown={handleSubmit}
       value={value}
     ></input>
-  )
-}
+  );
+};
 
 export default NewTaskForm;

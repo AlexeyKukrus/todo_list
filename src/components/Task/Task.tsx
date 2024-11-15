@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { formatDistanceToNow } from "date-fns";
+import React, { useState } from 'react';
+import { formatDistanceToNow } from 'date-fns';
 
-import { TaskListItem } from "../../types/types";
-import styles from './Task.module.scss';
+import { TaskListItem } from '../../types/types';
 
 interface PropTypes {
   task: TaskListItem;
@@ -11,8 +10,15 @@ interface PropTypes {
   onEditTask: (id: string, name: string) => void;
 }
 
-const Task: React.FC<PropTypes> = ({ task, onChangeTaskStatus, onDeleteTask, onEditTask }) => {
-  const dateTime = formatDistanceToNow(new Date(task.time), { addSuffix: true });
+const Task: React.FC<PropTypes> = ({
+  task,
+  onChangeTaskStatus,
+  onDeleteTask,
+  onEditTask,
+}) => {
+  const dateTime = formatDistanceToNow(new Date(task.time), {
+    addSuffix: true,
+  });
   const [isEditing, setIsEditing] = useState(false);
   const [taskName, setTaskName] = useState(task.name);
 
@@ -26,8 +32,8 @@ const Task: React.FC<PropTypes> = ({ task, onChangeTaskStatus, onDeleteTask, onE
 
   const handleSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      onEditTask(task.id, taskName); 
-      setIsEditing(false); 
+      onEditTask(task.id, taskName);
+      setIsEditing(false);
     }
   };
 
@@ -47,7 +53,7 @@ const Task: React.FC<PropTypes> = ({ task, onChangeTaskStatus, onDeleteTask, onE
           <input
             className="toggle"
             type="checkbox"
-            checked={task.status === "completed"}
+            checked={task.status === 'completed'}
             onChange={() => onChangeTaskStatus(task.id)}
           />
           <label>
@@ -63,10 +69,7 @@ const Task: React.FC<PropTypes> = ({ task, onChangeTaskStatus, onDeleteTask, onE
     <li key={task.id} className={task.status}>
       <div className="view">
         {renderTaskVision()}
-        <button 
-          className="icon icon-edit"
-          onClick={handleEditTask}
-        ></button>
+        <button className="icon icon-edit" onClick={handleEditTask}></button>
         <button
           className="icon icon-destroy"
           onClick={() => onDeleteTask(task.id)}
